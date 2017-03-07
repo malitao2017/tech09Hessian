@@ -1,0 +1,248 @@
+
+简述：
+http://blog.csdn.net/chenweitang123/article/details/6302204
+下载：
+http://download.csdn.net/detail/chenweitang123/3159260
+
+
+和netty（nio、socket）最大的区别是，hession可以实现自己的方法被别人远程调用
+类似一种远程反射的技术
+或者说用java的反射技术来实现远程调用，并且可以跨语言
+
+hession是一种jmi技术
+
+类似于webService技术
+1.处理:isay包中的内容
+2.测试1：index.jsp
+3.测试2：test方法
+
+关联类有两种方式配置
+ <servlet>
+    <servlet-name>hello</servlet-name>
+    <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>
+    <!-- 第一种方式 -->
+    <init-param>
+    	<param-name>service-class</param-name>
+    	<param-value>com.techstar.isay.IsayImpl</param-value>
+    </init-param>
+    <!-- 第二种方式 -->
+    <init-param>
+      <param-name>home-class</param-name>
+      <!-- 服务实现类 -->
+      <param-value>com.techstar.isay.IsayImpl</param-value>
+    </init-param>
+    <init-param>
+      <param-name>home-api</param-name>
+      <!-- 服务实现接口 -->
+      <param-value>com.techstar.isay.Isay</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hello</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+
+  
+  
+
+以下为具体的入门案例：
+http://blog.csdn.net/chenweitang123/article/details/6302204
+Hessian是一个简单的连接Web服务的二进制协议。
+       Hessian概述:
+一.客户端和服务端不依赖于其他任何jar,比起webService 它显得轻量许多,比如使用xfire包含核心库和客户端的jar,大小达到了10M ,而最新的hessian-4.0.7  jar大小也只有不到400K.
+      二.更适合二进制的传输,比起webService.Hessian的 传输速度要高于webService.
+      三.支持Java,c#,Flex(actionscrpit)
+
+ 
+
+一.  添加Hessian的jar于Web-Inf下.  这里使用的是hessian-4.0.7,下载地址: http://download.csdn.net/source/3159260
+
+二.  定制供客户端调用的接口:
+
+[java] view plaincopyprint?
+01.package com.wtang.isay;  
+02.  
+03.public interface Isay {  
+04.    public String sayHello(String arg1,String arg2);  
+05.}  
+package com.wtang.isay;
+
+public interface Isay {
+	public String sayHello(String arg1,String arg2);
+}
+
+ 
+
+
+三.  接口具体实现(如果使用了pojo类,pojo类必须实现序列化)
+
+
+
+[java] view plaincopyprint?
+01.package com.wtang.isay;  
+02.  
+03.public class IsayImpl implements Isay {  
+04.  
+05.    public String sayHello(String arg1, String arg2) {  
+06.        return "Hello:" + arg1 + arg2;  
+07.    }  
+08.}  
+package com.wtang.isay;
+
+public class IsayImpl implements Isay {
+
+	public String sayHello(String arg1, String arg2) {
+		return "Hello:" + arg1 + arg2;
+	}
+}
+
+ 
+
+四.  配置Hessian的Servlet[类似于配置webService的service.xml]
+
+ [java] view plaincopyprint?
+01.<servlet>  
+02.    <servlet-name>hello</servlet-name>  
+03.    <!-- 配置Hessian的Servlet -->  
+04.    <servletclass>com.caucho.hessian.server.HessianServlet</servlet-class>  
+05.    <init-param>  
+06.        <param-name>service-class</param-name>  
+07.        <param-value>com.wtang.isay.IsayImpl</param-value>  
+08.    </init-param>  
+09.</servlet>  
+10.  
+11.<servlet-mapping>  
+12.    <servlet-name>hello</servlet-name>  
+13.    <url-pattern>/hello</url-pattern>  
+14.</servlet-mapping>  
+<servlet>
+	<servlet-name>hello</servlet-name>
+	<!-- 配置Hessian的Servlet -->
+	<servletclass>com.caucho.hessian.server.HessianServlet</servlet-class>
+	<init-param>
+		<param-name>service-class</param-name>
+		<param-value>com.wtang.isay.IsayImpl</param-value>
+	</init-param>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>hello</servlet-name>
+	<url-pattern>/hello</url-pattern>
+</servlet-mapping>
+
+ 
+
+ 
+
+ 
+
+五.  书写服务端的测试jsp页面[HessianProxyFactory类似于xifre的XFireProxyFactory]  
+
+ 
+[java] view plaincopyprint?
+01.<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>  
+02.<%@ page import="com.caucho.hessian.client.HessianProxyFactory"%>  
+03.<%@ page import="com.wtang.isay.Isay"%>  
+04.  
+05.<%  
+06.    //Hessian代理工厂   
+07.    HessianProxyFactory factory = new HessianProxyFactory();  
+08.    //获得访问配置的Servlet路径   
+09.    String url=("http://"+request.getServerName()+":"+request.getServerPort()  
+10.    +request.getContextPath()+"/hello");  
+11.      
+12.    System.out.println(url);  
+13.      
+14.    //使用Hessian工厂获得接口的具体实现类   
+15.    Isay i = (Isay)factory.create(Isay.class,url);  
+16.      
+17.    out.println("<h2>"+i.sayHello("chen","weitang")+"<h2>");  
+18.%>  
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page import="com.caucho.hessian.client.HessianProxyFactory"%>
+<%@ page import="com.wtang.isay.Isay"%>
+
+<%
+	//Hessian代理工厂
+	HessianProxyFactory factory = new HessianProxyFactory();
+	//获得访问配置的Servlet路径
+	String url=("http://"+request.getServerName()+":"+request.getServerPort()
+	+request.getContextPath()+"/hello");
+	
+	System.out.println(url);
+	
+	//使用Hessian工厂获得接口的具体实现类
+	Isay i = (Isay)factory.create(Isay.class,url);
+	
+	out.println("<h2>"+i.sayHello("chen","weitang")+"<h2>");
+%> 
+
+ 
+
+输出Hello:cheweitang
+
+ 
+
+ 
+
+六.客户端调用:
+
+ 
+
+[java] view plaincopyprint?
+01.package com.wtang.test;  
+02.  
+03.import java.net.MalformedURLException;  
+04.  
+05.import com.caucho.hessian.client.HessianProxyFactory;  
+06.import com.wtang.isay.Isay;  
+07.  
+08.public class Test {  
+09.    public static void main(String[] args) throws MalformedURLException {  
+10.        // Hessian代理工厂   
+11.        HessianProxyFactory factory = new HessianProxyFactory();  
+12.        // 访问配置的Servlet路径   
+13.        String url = "http://localhost:8080/HessianFirst/hello";  
+14.  
+15.        // 使用Hessian工厂获得接口的具体实现类   
+16.        Isay i = (Isay) factory.create(Isay.class, url);  
+17.  
+18.        System.out.println(i.sayHello("chen", "weitang"));  
+19.    }  
+20.}  
+package com.wtang.test;
+
+import java.net.MalformedURLException;
+
+import com.caucho.hessian.client.HessianProxyFactory;
+import com.wtang.isay.Isay;
+
+public class Test {
+	public static void main(String[] args) throws MalformedURLException {
+		// Hessian代理工厂
+		HessianProxyFactory factory = new HessianProxyFactory();
+		// 访问配置的Servlet路径
+		String url = "http://localhost:8080/HessianFirst/hello";
+
+		// 使用Hessian工厂获得接口的具体实现类
+		Isay i = (Isay) factory.create(Isay.class, url);
+
+		System.out.println(i.sayHello("chen", "weitang"));
+	}
+} 
+
+ 
+
+ 
+
+输出Hello:chenweitang
+
+ 
+
+  
+
+相比起webService 是不是轻量级许多呢?
+
+                                                                                                ---2011年4月4日 23:09:19
+
+

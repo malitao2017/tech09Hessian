@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: lib/log4j-1.2.11.jar lib/visu-cdmp-base-1.0-SNAPSHOT.jar lib/visu-cdmp-trans-excelinput-1.0-SNAPSHOT.jar lib/visu-interfacemgr-1.0-SNAPSHOT.jar lib/visu-ioc-1.0-SNAPSHOT.jar lib/visu-platform-analyzer-1.0-SNAPSHOT.jar lib/visu-platform-core-base-1.0-SNAPSHOT.jar
+Main-Class: com.techstar.work.ModelServiceImplTest
+
