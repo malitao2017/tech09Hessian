@@ -4,6 +4,13 @@ http://blog.csdn.net/chenweitang123/article/details/6302204
 下载：
 http://download.csdn.net/detail/chenweitang123/3159260
 
+运行：（端口跟配置的tomcat有关系）
+方式一：http://localhost:8082/tech09Hessian/
+方式二：直接运行Test.java
+
+包：com.techstar.work 中
+是可视化后台具体的内容，供实际使用参考
+
 
 和netty（nio、socket）最大的区别是，hession可以实现自己的方法被别人远程调用
 类似一种远程反射的技术

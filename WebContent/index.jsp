@@ -15,10 +15,9 @@
 	HessianProxyFactory factory = new HessianProxyFactory();
 	//获得访问配置的servlet路径 调用接口为：
 	String url = ("http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/hello");
-	System.out.println("url为：" + url);
 	//使用Hessian工厂获得接口的具体实现类
-	Isay i = (Isay)factory.create(Isay.class, url);
-	out.println("<h2>"+i.sayHello("ni ", " hao")+"<h2>");
+	Isay isay = (Isay)factory.create(Isay.class, url);
+	out.println("<h2> "+"url为："+url+" 输出为： "+isay.sayHello("ni ", " hao")+"<h2>");
 %>
 
 </body>

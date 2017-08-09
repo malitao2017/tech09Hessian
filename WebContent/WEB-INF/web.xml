@@ -12,17 +12,19 @@
     	<param-name>service-class</param-name>
     	<param-value>com.techstar.isay.IsayImpl</param-value>
     </init-param>
-    <!-- 第二种方式 -->
-    <init-param>
+    <!-- 第一种方式 结束-->
+    
+    <!-- 第二种方式  第一个参数是服务实现类 第二个参数是服务实现接口-->
+    <!-- <init-param>
       <param-name>home-class</param-name>
-      <!-- 服务实现类 -->
       <param-value>com.techstar.isay.IsayImpl</param-value>
     </init-param>
     <init-param>
       <param-name>home-api</param-name>
-      <!-- 服务实现接口 -->
       <param-value>com.techstar.isay.Isay</param-value>
-    </init-param>
+    </init-param> -->
+    <!-- 第二种方式 结束 -->
+    
   </servlet>
   
   <servlet-mapping>
