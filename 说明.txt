@@ -4,6 +4,8 @@ http://blog.csdn.net/chenweitang123/article/details/6302204
 下载：
 http://download.csdn.net/detail/chenweitang123/3159260
 
+hession是一种jmi技术，也就是rpc的一种实现
+
 运行：（端口跟配置的tomcat有关系）
 方式一：http://localhost:8082/tech09Hessian/
 方式二：直接运行Test.java
@@ -16,7 +18,7 @@ http://download.csdn.net/detail/chenweitang123/3159260
 类似一种远程反射的技术
 或者说用java的反射技术来实现远程调用，并且可以跨语言
 
-hession是一种jmi技术
+
 
 类似于webService技术
 1.处理:isay包中的内容
