@@ -7,6 +7,7 @@ http://download.csdn.net/detail/chenweitang123/3159260
 hession是一种jmi技术，也就是rpc的一种实现
 
 运行：（端口跟配置的tomcat有关系）
+先把项目部署到tomcat中
 方式一：http://localhost:8082/tech09Hessian/
 方式二：直接运行Test.java
 
